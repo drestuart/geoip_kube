@@ -1,0 +1,66 @@
+---
+swagger: "2.0"
+info:
+  description: "TK"
+  version: "1.0.0"
+  title: "GeoIP Kube"
+host: "localhost"
+basePath: "/v1"
+tags:
+- name: "GeoIP"
+  description: "Get approximate latitude and longitude from an IP address"
+schemes:
+- "https"
+- "http"
+paths:
+  /getCoords:
+    get:
+      tags:
+      - "GeoIP"
+      summary: ""
+      description: ""
+      operationId: "get_coords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "ip"
+        in: "query"
+        description: "IPv4 or IPv6 address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              latitude:
+                type: "number"
+                format: "double"
+                example: -34.9808
+              longitude:
+                type: "number"
+                format: "double"
+                example: 138.515
+        400:
+          description: "Invalid IP address"
+        404:
+          description: "Coordinates not found"
+      x-swagger-router-controller: "swagger_server.controllers.geo_ip_controller"
+definitions:
+  inline_response_200:
+    properties:
+      latitude:
+        type: "number"
+        format: "double"
+        example: -34.9808
+      longitude:
+        type: "number"
+        format: "double"
+        example: 138.515
+    example:
+      latitude: -34.9808
+      longitude: 138.515
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
