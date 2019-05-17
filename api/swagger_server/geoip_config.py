@@ -1,0 +1,2 @@
+IPV4_TABLE = "ipv4"
+IPV6_TABLE = "ipv6"
