@@ -11,4 +11,4 @@ unzip GeoLite2-City-CSV.zip -d geolite
 cd geolite && mv GeoLite2-City-CSV_*/* . && cd .. && rm GeoLite2-City-CSV.zip
 
 # Run data loading script
-python swagger_server/load_data.py
+python3 swagger_server/load_data.py

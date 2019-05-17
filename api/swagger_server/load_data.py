@@ -42,7 +42,6 @@ class DataLoader(object):
                 sql = f"""
                     INSERT INTO {tablename} (cidr, latitude, longitude)
                     VALUES (%(network)s, %(latitude)s, %(longitude)s)
-                    RETURNING id
                 """
 
                 cur.execute(sql, {
