@@ -9,6 +9,15 @@ from ..postgres_connector import PostgresConnector
 
 def get_coords(ip):
     """
+    Controller method for the IP -> coordinates query.
+
+    Args:
+        ip (str): The IP address to query the database for
+
+    Returns:
+        200: Dictionary with latitude and longitude keys
+        400: Invalid IP address
+        404: IP address not found
     """
     connector = PostgresConnector()
     connector.connect()
@@ -35,7 +44,7 @@ def get_coords(ip):
     else:
         result = "Invalid ip address", 400
 
-    # Not found
+    # IP address not found
     if result is None:
         return "IP address not found", 404
 

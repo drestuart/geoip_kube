@@ -10,8 +10,10 @@ services:
     links:
       - db
     environment:
-      DB: mysql+pymysql://root:root@db:3306/resource_manager
-      DB_CONNECTION_RECYCLE: 3600
+      DATABASE_HOST: db
+      DATABASE_NAME: geoip
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: root
     depends_on:
       - db
     volumes:
