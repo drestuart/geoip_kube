@@ -41,26 +41,12 @@ paths:
               longitude:
                 type: "number"
                 format: "double"
-                example: 138.515
+                example: 138.5150
         400:
           description: "Invalid IP address"
         404:
           description: "Coordinates not found"
       x-swagger-router-controller: "swagger_server.controllers.geo_ip_controller"
-definitions:
-  inline_response_200:
-    properties:
-      latitude:
-        type: "number"
-        format: "double"
-        example: -34.9808
-      longitude:
-        type: "number"
-        format: "double"
-        example: 138.515
-    example:
-      latitude: -34.9808
-      longitude: 138.515
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
