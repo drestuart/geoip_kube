@@ -1,4 +1,4 @@
 *.pyc
-*.txt
-GeoLite*
+problem.txt
+geolite/
 .DS_Store
