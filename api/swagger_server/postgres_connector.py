@@ -56,13 +56,16 @@ class PostgresConnector(object):
 
     def query_ip_table(self, ip, tablename):
         self.cur.execute(f"SELECT latitude, longitude from {tablename} where inet %(ip)s <<= cidr", {"ip": ip})
-        results = []
 
-        for row in self.cur:
-            results.append({
-                "latitude" : row[0],
-                "longitude" : row[1]
-                })
+        row = self.cur.fetchone()
+
+        if row is None:
+            return None
+        
+        results = {
+            "latitude" : row[0],
+            "longitude" : row[1]
+            }
 
         return results
 
