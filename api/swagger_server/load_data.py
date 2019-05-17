@@ -19,7 +19,7 @@ class DataLoader(object):
 
     def load_csv_data(self, filepath, tablename, cur):
 
-        max_rows = 1000
+        max_rows = 10000
 
         with open(filepath, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
@@ -50,9 +50,9 @@ class DataLoader(object):
                     "latitude" : latitude, 
                     "longitude" : longitude
                 })
-                _id = cur.fetchone()[0]
 
-                print(_id)
+                if rows % 1000 == 0:
+                    print(f"Loading row {rows} into table {tablename}")
 
                 if rows >= max_rows:
                     break
@@ -66,9 +66,9 @@ def main():
     connector.create_tables()
     dl.load_data(cur)
     rec = connector.query_ipv4('1.0.1.66')
-    print(rec)
+    print('1.0.1.66 =>', rec)
     rec = connector.query_ipv6('9c:1e::95:69:9d:41')
-    print(rec)
+    print('9c:1e::95:69:9d:41 =>', rec)
     connector.disconnect()
 
 if __name__ == '__main__': 

@@ -1,4 +1,4 @@
-FROM python:3.6.8-slim
+FROM python:3.6.8-jessie
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
