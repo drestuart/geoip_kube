@@ -4,6 +4,25 @@ GeoIP Kube is a small Swagger-based API that returns approximate latitude and lo
 
 ## Deployment
 
+GeoIP can be started simply by using docker-compose or Kubernetes. Starting with a working Docker or Kubernetes installation, clone the repository:
+
+    $ git clone https://github.com/drestuart/geoip_kube.git
+    $ cd geoip_kube/
+    
+Then run `docker-compose up -d` to build the containers and start the API server. The simplest way to verify that everything is up is to open the Swagger UI at http://localhost/v1/ui/#!/GeoIP/get_coords and try a request with an IP address.
+
+To deploy to a Kubernetes cluster using docker stack deploy, do the following:
+
+    docker swarm init
+    docker-compose build api
+    docker stack deploy --compose-file docker-compose.yml geoip_kube_stack
+    
+Then use the following to confirm that the stack is running:
+    
+    docker stack ls
+    docker stack services geoip_kube_stack
+
+as well as accessing http://localhost/v1/ui/#!/GeoIP/get_coords as above.
 
 ## Testing
 
