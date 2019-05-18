@@ -112,6 +112,31 @@ class PostgresConnector(object):
 
         return results
 
+    def insert_record(self, network, latitude, longitude, tablename):
+        """
+        Insert a new record in the database.
+
+        Args:
+            network (str): The CIDR value
+            latitude (str): The latitude value
+            longitude (str): The longitude value
+            tablename (str): The table to insert into
+        """
+
+        # Build query
+        sql = f"""
+            INSERT INTO {tablename} (cidr, latitude, longitude)
+            VALUES (%(network)s, %(latitude)s, %(longitude)s)
+        """
+
+        # Insert data
+        self.cur.execute(sql, {
+            "network" : network, 
+            "latitude" : latitude, 
+            "longitude" : longitude
+        })
+
+
     def disconnect(self):
         """
         Commit the current transaction and disconnect from the database.

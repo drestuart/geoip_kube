@@ -11,31 +11,29 @@ except ImportError:
 class DataLoader(object):
 
     @staticmethod
-    def load_data(cur):
+    def load_data(connector):
         """
         Load IPv4 and IPv6 files into the database
 
         Args:
-            cur: The database cursor
+            connector: A PostgressConnector instance
         """
         ipv4_path = os.path.join("geolite", "GeoLite2-City-Blocks-IPv4.csv")
         ipv6_path = os.path.join("geolite", "GeoLite2-City-Blocks-IPv6.csv")
         
-        DataLoader.load_csv_data(ipv4_path, IPV4_TABLE, cur)
-        DataLoader.load_csv_data(ipv6_path, IPV6_TABLE, cur)
+        DataLoader.load_csv_data(ipv4_path, IPV4_TABLE, connector)
+        DataLoader.load_csv_data(ipv6_path, IPV6_TABLE, connector)
 
     @staticmethod
-    def load_csv_data(filepath, tablename, cur):
+    def load_csv_data(filepath, tablename, connector):
         """
         Parse CSV data and load into database
 
         Args:
             filepath (str): The file path to load
             tablename (str): The table to insert into
-            cur: The database cursor
+            connector: A PostgressConnector instance
         """
-
-        max_rows = 10000
 
         with open(filepath, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
@@ -55,23 +53,11 @@ class DataLoader(object):
                 latitude = row[lat_col]
                 longitude = row[long_col]
 
-                # Build query and insert data
-                sql = f"""
-                    INSERT INTO {tablename} (cidr, latitude, longitude)
-                    VALUES (%(network)s, %(latitude)s, %(longitude)s)
-                """
-
-                cur.execute(sql, {
-                    "network" : network, 
-                    "latitude" : latitude, 
-                    "longitude" : longitude
-                })
+                # Insert data
+                connector.insert_record(network, latitude, longitude, tablename)
 
                 if rows % 1000 == 0:
                     print(f"Loading row {rows} into table {tablename}")
-
-                if rows >= max_rows:
-                    break
 
 def main():
     """
@@ -81,14 +67,13 @@ def main():
     # Connect to database
     connector = PostgresConnector()
     connector.connect()
-    conn, cur = connector.get_conn()
 
     # Recreate tables
     connector.drop_tables()
     connector.create_tables()
 
     # Load all data
-    DataLoader.load_data(cur)
+    DataLoader.load_data(connector)
 
     # Run some test queries
     rec = connector.query_ipv4('1.0.1.66')
