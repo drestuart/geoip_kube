@@ -19,11 +19,9 @@ services:
     volumes:
       - ./api:/usr/src/app
   db:
-    image: postgres:11.3  # https://hub.docker.com/_/mysql
+    image: postgres:11.3
     ports:
       - "32000:3306"
-    volumes:
-      - dev-db-data:/var/lib/mysql
     restart: always
     environment:
       POSTGRES_USER: postgres
