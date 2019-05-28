@@ -9,20 +9,22 @@ GeoIP can be started simply by using docker-compose or Kubernetes. Starting with
     $ git clone https://github.com/drestuart/geoip_kube.git
     $ cd geoip_kube/
     
-Then run `docker-compose up -d` to build the containers and start the API server. The simplest way to verify that everything is up is to open the Swagger UI at http://localhost/v1/ui/#!/GeoIP/get_coords and try a request with an IP address.
+### Kubernetes
 
-To deploy to a Kubernetes cluster using docker stack deploy, do the following:
+To deploy to a local Kubernetes cluster simply do:
 
-    docker swarm init
-    docker-compose build api
-    docker stack deploy --compose-file docker-compose.yml geoip_kube_stack
+    kubectl apply -f kube/
     
-Then use the following to confirm that the stack is running:
+Then use the following to confirm that the deployment and service were created as expected:
     
-    docker stack ls
-    docker stack services geoip_kube_stack
+    kubectl get -f kube/
 
-as well as accessing http://localhost/v1/ui/#!/GeoIP/get_coords as above.
+Wait a few moments for the data loading to complete, then open the Swagger UI at http://localhost/v1/ui/#!/GeoIP/get_coords and try a request with an IP address.
+
+### docker-compose
+
+To start in docker-compose, run `docker-compose up -d` to pull the containers and start the API server. The simplest way to verify that everything is up try accessing http://localhost/v1/ui/#!/GeoIP/get_coords as above.
+
 
 ## Testing
 
