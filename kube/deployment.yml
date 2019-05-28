@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geoip-kube-api
+spec:
+  selector:
+    matchLabels:
+      app: geoip_kube_api
+  template:
+    metadata:
+      labels:
+        app: geoip_kube_api
+    spec:
+      containers:
+      - name: api
+        image: drestuart/geoip_kube_api
+        ports:
+        - name: http
+          containerPort: 80
+        env:
+        - name: DATABASE_HOST
+          value: localhost
+        - name: DATABASE_NAME
+          value: geoip
+        - name: DATABASE_USER
+          value: postgres
+        - name: DATABASE_PASSWORD
+          value: root
+      - name: db
+        image: postgres:11.3
+        env:
+        - name: POSTGRES_DB
+          value: geoip
+        - name: POSTGRESE_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: root
+

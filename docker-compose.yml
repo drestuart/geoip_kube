@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   api:
-    image: geoip_kube_api
+    image: drestuart/geoip_kube_api
     build: ./api
     ports:
       - "80:80"
