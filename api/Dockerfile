@@ -23,7 +23,7 @@ RUN echo "* * */7 * * . $HOME/.profile && cd /usr/src/app && ./load_data.sh >> /
 RUN touch /var/log/cron.log
 RUN chmod 0666 /var/log/cron.log
 
-EXPOSE 8080
+EXPOSE 80
 
 # Run data load script on startup
 CMD cron && /bin/bash load_data.sh >> /var/log/cron.log 2>&1 && python3 -m swagger_server

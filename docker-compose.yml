@@ -4,7 +4,7 @@ services:
     image: geoip_kube_api
     build: ./api
     ports:
-      - "80:8080"
+      - "80:80"
     links:
       - db
     environment:
